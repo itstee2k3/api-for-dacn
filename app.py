@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, Response, jsonify, request
 from flask_cors import CORS
 
@@ -134,9 +135,12 @@ def toggle_glasses():
         print(f"Exception while loading image: {e}")
         return jsonify({'error': str(e)}), 400
 
+    # Đảm bảo rằng hiệu ứng kính mát luôn bật sau khi tải ảnh thành công
+    if not virtual_glasses_enabled:
+        virtual_glasses_enabled = True  # Bật kính mát nếu chưa bật
     
     # Bật/tắt kính mát
-    virtual_glasses_enabled = not virtual_glasses_enabled
+    # virtual_glasses_enabled = not virtual_glasses_enabled
     return jsonify({'glasses_enabled': virtual_glasses_enabled, 'image_url': image_url})
 
 @app.route('/video_feed')
@@ -146,3 +150,4 @@ def video_feed():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
